@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 from PIL import Image,ImageTk
 import re
 import os
-
 from numpy.lib.type_check import imag
 
 
@@ -29,56 +28,53 @@ def select():
     def back2():
         ventanatf.destroy()
 #------------------------FUNCIONES PARA FILTROS IDEALES FT-----------------------------
-    def PBI():
-        def Filtro1():
-            num = entry.get()
-            if num.isnumeric() == True:
-                num = int(num)
-                img = cv2.cvtColor(imagen,cv2.COLOR_BGR2GRAY)
-                dft=cv2.dft(np.float32(img),flags=cv2.DFT_COMPLEX_OUTPUT)
-                dft_shift=np.fft.fftshift(dft)
-                rows,cols=img.shape
-                crow,ccol=int(rows/2),int(cols/2)
-                mask=np.ones((rows,cols,2), np.uint8)
-                D= num
-                mask[crow-D:crow+D, ccol-D:ccol+D]=0 
-                fshift=dft_shift*mask
-                f_ishift=np.fft.ifftshift(fshift)
-                img_back=cv2.idft(f_ishift)
-                img_back=cv2.magnitude(img_back[:,:,0],img_back[:,:,1])
-                plt.subplot(121),plt.imshow(img,cmap='gray')
-                plt.title('Imagen Original'), plt.xticks([]),plt.yticks([])
-                plt.subplot(122),plt.imshow(img_back,cmap='gray')
-                plt.title('Imagen Filtrada'), plt.xticks([]),plt.yticks([])
-                plt.show()
-            else:
-                messagebox.showerror(message="El valor ingresado no es númerico",title="Error")
-        def regresar1():
-            ventanapbi.destroy()
-        ventanapbi=tk.Tk()
-        ventanapbi.title("PASA BAJAS IDEAL POR TF")
+    def ITF():
+        if menu1.current()==0:
+            def regresar1():
+                ventanapbi.destroy() 
+            def Filtro1():
+                num = entry.get()
+                if num.isnumeric() == True:
+                    num = int(num)
+                    img = cv2.cvtColor(imagen,cv2.COLOR_BGR2GRAY)
+                    dft=cv2.dft(np.float32(img),flags=cv2.DFT_COMPLEX_OUTPUT)
+                    dft_shift=np.fft.fftshift(dft)
+                    rows,cols=img.shape
+                    crow,ccol=int(rows/2),int(cols/2)
+                    mask=np.ones((rows,cols,2), np.uint8)
+                    D= num
+                    mask[crow-D:crow+D, ccol-D:ccol+D]=0 
+                    fshift=dft_shift*mask
+                    f_ishift=np.fft.ifftshift(fshift)
+                    img_back=cv2.idft(f_ishift)
+                    img_back=cv2.magnitude(img_back[:,:,0],img_back[:,:,1])
+                    plt.subplot(121),plt.imshow(img,cmap='gray')
+                    plt.title('Imagen Original'), plt.xticks([]),plt.yticks([])
+                    plt.subplot(122),plt.imshow(img_back,cmap='gray')
+                    plt.title('Imagen Filtrada'), plt.xticks([]),plt.yticks([])
+                    plt.show()
+            ventanapbi=tk.Tk()
+            ventanapbi.title("PASA BAJAS IDEAL POR TF")
 
-        miframepbi=tk.Frame(ventanapbi)
-        miframepbi.pack()
-        miframepbi.config(bg="green",cursor='hand2')
-        
-        mensaje=tk.Label(miframepbi,text="Ingresa el valor para el radio",font=('Arial 20'),bg='green')
-        mensaje.grid(row=0,column=1,padx=10,pady=10)
-        
-        entry = tk.Entry(miframepbi,font="Arial 18")
-        entry.grid(row=1,column=1,padx=5,pady=5)
-        entry.config(justify="center")
-        
-        boton9=tk.Button(miframepbi,text="FILTRAR",font="Arial 20",activebackground="green",command=Filtro1)
-        boton9.grid(row=3,column=2,padx=5,pady=5)
-        
-        boton9=tk.Button(miframepbi,text="REGRESAR",font="Arial 20",activebackground="red",command = regresar1)
-        boton9.grid(row=3,column=0,padx=5,pady=5)
-        
-        ventanapbi.mainloop()
-        
-        
-        
+            miframepbi=tk.Frame(ventanapbi)
+            miframepbi.pack()
+            miframepbi.config(bg="green",cursor='hand2')
+            
+            mensaje=tk.Label(miframepbi,text="Ingresa el valor para el radio",font=('Arial 20'),bg='green')
+            mensaje.grid(row=0,column=1,padx=10,pady=10)
+            
+            entry = tk.Entry(miframepbi,font="Arial 18")
+            entry.grid(row=1,column=1,padx=5,pady=5)
+            entry.config(justify="center")
+            
+            boton9=tk.Button(miframepbi,text="FILTRAR",font="Arial 20",activebackground="green",command=Filtro1)
+            boton9.grid(row=3,column=2,padx=5,pady=5)
+            
+            boton9=tk.Button(miframepbi,text="REGRESAR",font="Arial 20",activebackground="red",command = regresar1)
+            boton9.grid(row=3,column=0,padx=5,pady=5)
+            ventanapbi.mainloop()
+        else:
+            messagebox.showerror(message="No has seleccionado un comando",title="Error")
 #-------------------------------------------------------------------------------------------
 
     #SEGUNDA VENTANA
@@ -91,30 +87,32 @@ def select():
         miframeitf=tk.Frame(ventanaitf)
         miframeitf.pack()   
         miframeitf.config(bg="blue",cursor='hand2')
-        boton1=tk.Button(miframeitf,text="Filtro pasa bajas",font="Arial 20",activebackground="green",command=PBI)
-        boton1.grid(row=1,column=0,padx=5,pady=5)
-        boton2=tk.Button(miframeitf,text="Filtro pasa altas",font="Arial 20",activebackground="green")
-        boton2.grid(row=2,column=0,padx=5,pady=5)
-        boton3=tk.Button(miframeitf,text="Filtro pasa banda",font="Arial 20",activebackground="green")
-        boton3.grid(row=3,column=0,padx=5,pady=5)
-        boton4=tk.Button(miframeitf,text="Filtro rechazo de banda",font="Arial 20",activebackground="green")
-        boton4.grid(row=4,column=0,padx=5,pady=5)
+        menu1=ttk.Combobox(miframeitf,font="Arial 20",justify=tk.CENTER,width=35,state="readonly")
+        menu1.grid(row=1,column=1,padx=15,pady=15)
+        opciones2=["Pasa Bajas","Pasa Altas","Pasa Banda","Rechazo de Banda"]
+        menu1["values"]=opciones2
+        boton4=tk.Button(miframeitf,text="SELECCIONAR",font="Arial 20",activebackground="green",command=ITF)
+        boton4.grid(row=2,column=1,padx=5,pady=5)
         boton5=tk.Button(miframeitf,text="REGRESAR",font="Arial 20",activebackground="red",command=back1)
-        boton5.grid(row=5,column=0,padx=5,pady=5)
+        boton5.grid(row=3,column=1,padx=5,pady=5)
         
         ventanaitf.mainloop()
+        
+    #TERCERA VENTANA
     if menu.current()==1:
         ventanatf=tk.Tk()
         ventanatf.title("Filtro No Ideal por TF")
         miframetf=tk.Frame(ventanatf)
         miframetf.pack()   
         miframetf.config(bg="red",cursor='hand2')
-        boton6=tk.Button(miframetf,text="Filtro Butterworth",font="Arial 20",activebackground="green")
-        boton6.grid(row=1,column=0,padx=5,pady=5)
-        boton7=tk.Button(miframetf,text="Filtro Gaussiano",font="Arial 20",activebackground="green")
-        boton7.grid(row=2,column=0,padx=5,pady=5)
+        menu2=ttk.Combobox(miframetf,font="Arial 20",justify=tk.CENTER,width=35,state="readonly")
+        menu2.grid(row=1,column=1,padx=15,pady=15)
+        opciones3=["Butterworth","Gaussiano"]
+        menu2["values"]=opciones3
+        boton7=tk.Button(miframetf,text="SELECCIONAR",font="Arial 20",activebackground="green")
+        boton7.grid(row=2,column=1,padx=5,pady=5)
         boton8=tk.Button(miframetf,text="REGRESAR",font="Arial 20",activebackground="red",command=back2)
-        boton8.grid(row=3,column=0,padx=5,pady=5)
+        boton8.grid(row=3,column=1,padx=5,pady=5)
         ventanatf.mainloop()
 
 def salir():
