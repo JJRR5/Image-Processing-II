@@ -123,30 +123,30 @@ def salir():
     
 def select1():
     global imagen
-    imagen=cv2.imread('spiderverse.jpg')
+    imagen=cv2.imread('tomografia.jpg')
     select()
     
 def select2():
     global imagen
-    imagen=cv2.imread('spiderverse.jpg')
+    imagen=cv2.imread('camaleon.jpeg')
     select()
 
 def select3():
     global imagen
-    imagen=cv2.imread('spiderverse.jpg')
+    imagen=cv2.imread('paisaje.jpg')
     select()
 
 #-----------------------------------------------------------------------------------------------
 mensaje=tk.Label(miframe,text="Elige una de las 3 imagenes y el comando a utilizar",font=('Arial 20'),bg='white')
 mensaje.grid(row=0,column=1,padx=10,pady=10)
 
-img1=Image.open('spiderverse.jpg')
+img1=Image.open('tomografia.jpg')
 img1=img1.resize((220, 220),Image.ANTIALIAS)
 img1=ImageTk.PhotoImage(img1)
-img2=Image.open('spiderverse.jpg')
+img2=Image.open('camaleon.jpeg')
 img2=img2.resize((220, 220),Image.ANTIALIAS)
 img2=ImageTk.PhotoImage(img2)
-img3=Image.open('spiderverse.jpg')
+img3=Image.open('paisaje.jpg')
 img3=img3.resize((220, 220),Image.ANTIALIAS)
 img3=ImageTk.PhotoImage(img3)
 
