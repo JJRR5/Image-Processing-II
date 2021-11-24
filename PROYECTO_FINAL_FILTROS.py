@@ -11,7 +11,7 @@ from numpy.lib.type_check import imag
 
 
 
-ventana=tk.Tk()
+ventana=tk.Tk() #hola
 ventana.title("Prgrama Filtros")
 
 miframe=tk.Frame(ventana)
